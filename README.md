@@ -1,22 +1,100 @@
 # CucumberRailsSteps
 
-This gem provides a bunch of useful steps for testing Rails applications with Cucumber.
+> ## WARNING: Very Unstable
+> This Gem is still in early development and not yet ready for general use.
+> 
+> The API and even the name of the gem are likely to change without notice.
+
+This gem provides some useful helpers and step definitions for testing Rails applications with Cucumber.
+
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+group :test do
+  gem "cucumber-rails-steps", github: 'pmfit/cucumber-rails-steps', branch: 'main'
+end
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+And then somewhere in your Cucumber setup do
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+```ruby
+require 'cucumber_rails_steps'
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+World(CucumberRailsSteps)
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Setting the current page
+
+#### Paths without arguments 
+
+Create a step definition like this:
+
+```ruby
+When("I'm on the {string} page") do |page_name|
+  visit_path_for(page_name)
+end
+```
+
+Now you can visit any page by normal-human readable name.
+
+**Example 1: Users Index**
+```gherkin
+When I'm on the "users" page
+```
+
+**Example 2: New Users**
+```gherkin
+When I'm on the "new user" page
+```
+
+#### Paths with arguments
+
+
+Create a step definition like this:
+```ruby
+When("I'm on the {string} page for") do |page_name, table|
+  visit_path_for(page_name, table)
+end
+```
+
+This let's you navigate to a specific record's page without having to know the database id of the record.
+
+Instead, you can lookup the record by any attribute you want.
+
+**Example 1: Show User**
+```gherkin
+When I'm on the "user" page for
+  | User email | 
+  | test@example.com |
+```
+It will lookup the user by email and visit the path for that user. 
+
+**Example 2: Edit User**
+```gherkin
+When I'm on the "edit user" page for
+  | User email |
+  | test@example.com |
+```
+
+**Example 3: User's Post**
+```gherkin
+When I'm on the "user" page for
+  | User email | Post title |
+  | test@example.com | Hello World |
+```
+ The above is equivalent ot 
+
+```ruby
+user = User.find_by(email: "test@example.com")
+post = Post.find_by(title: "Hello World")
+
+visit(user_post_path(user, post))
+```
 
 ## Development
 
