@@ -7,7 +7,9 @@ module CucumberRailsSteps
 
   class PathResolver
     def resolve_method(name)
-      "#{name}_path".to_sym
+      name_in_snake_case = name.downcase.gsub(/\s/, '_')
+
+      "#{name_in_snake_case}_path".to_sym
     end
   end
 end
