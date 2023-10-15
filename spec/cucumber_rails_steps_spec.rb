@@ -26,13 +26,11 @@ RSpec.describe CucumberRailsSteps do
     end
   end
 
-  describe CucumberRailsSteps::Arguments do
-    let(:arguments) { CucumberRailsSteps::Arguments.new }
 
     describe "#resolve" do
       context "the table is nil" do
         it "returns an empty array" do
-          expect(arguments.resolve(nil)).to eq([])
+          expect(world.path_arguments_from(nil)).to eq([])
         end
 
         context "when column headers have only 1 word" do
@@ -52,7 +50,7 @@ RSpec.describe CucumberRailsSteps do
                   | #{table_value}  |
                 )
 
-                expect(arguments.resolve(table)).to eq([expected_value])
+                expect(world.path_arguments_from(table)).to eq([expected_value])
               end
             end
           end
@@ -63,12 +61,11 @@ RSpec.describe CucumberRailsSteps do
                   | 1 | 2 | 3 |
                 )
 
-            expect(arguments.resolve(table)).to eq(["1", "2", "3"])
+            expect(world.path_arguments_from(table)).to eq(["1", "2", "3"])
           end
         end
       end
     end
-  end
 
   def make_table(raw_table)
     Cucumber::MultilineArgument::DataTable.from(raw_table)

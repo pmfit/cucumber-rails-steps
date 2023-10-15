@@ -11,6 +11,10 @@ module CucumberRailsSteps
     "#{name_in_snake_case}_path".to_sym
   end
 
+  def path_arguments_from(table)
+    Arguments.new.resolve(table)
+  end
+
   class Arguments
     def resolve(table)
       return [] if !table
