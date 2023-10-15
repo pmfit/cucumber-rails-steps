@@ -10,6 +10,7 @@ RSpec.describe CucumberRailsSteps do
     describe '#resolve_method' do
       [
         ['users', :users_path],
+        ['user', :user_path],
       ].each  do |name, expected|
         it "returns #{expected} for #{name}" do
           expect(resolver.resolve_method(name)).to eq(expected)
