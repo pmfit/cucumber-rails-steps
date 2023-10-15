@@ -12,20 +12,14 @@ module CucumberRailsSteps
   end
 
   def path_arguments_from(table)
-    Arguments.new.resolve(table)
-  end
+    return [] if !table
 
-  class Arguments
-    def resolve(table)
-      return [] if !table
+    arguments = []
 
-      arguments = []
-
-      table.headers.each_with_index do |_header, index|
-        arguments << table.rows.first[index]
-      end
-
-      arguments
+    table.headers.each_with_index do |_header, index|
+      arguments << table.rows.first[index]
     end
+
+    arguments
   end
 end
