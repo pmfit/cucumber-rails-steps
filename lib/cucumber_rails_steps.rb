@@ -15,6 +15,9 @@ module CucumberRailsSteps
 
   class Arguments
     def resolve(table)
+      if table
+        return [1]
+      end
       []
     end
   end

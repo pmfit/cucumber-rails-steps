@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require "cucumber"
 
 RSpec.describe CucumberRailsSteps do
   it "has a version number" do
@@ -31,7 +32,20 @@ RSpec.describe CucumberRailsSteps do
         it 'returns an empty array' do
           expect(arguments.resolve(nil)).to eq([])
         end
+
+        it 'returns the column if the column header has 1 word' do
+          table = make_table %{
+            | id |
+            | 1  |
+          }
+
+          expect(arguments.resolve(table)).to eq([1])
+        end
       end
     end
+  end
+
+  def make_table(raw_table)
+    Cucumber::MultilineArgument::DataTable.from(raw_table)
   end
 end
