@@ -34,23 +34,25 @@ RSpec.describe CucumberRailsSteps do
           expect(arguments.resolve(nil)).to eq([])
         end
 
-        context "when the column header has 1 word" do
-          [
-            [-1, "-1"],
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            ["", ""],
-            ["banana", "banana"],
-            ["apple", "apple"]
-          ].each do |table_value, expected_value|
-            it "returns the value (e.g. '#{table_value}')" do
-              table = make_table %(
-                | id |
-                | #{table_value}  |
-              )
+        context "when column headers have only 1 word" do
+          context 'when there is only 1 column' do
+            [
+              [-1, "-1"],
+              [0, "0"],
+              [1, "1"],
+              [2, "2"],
+              ["", ""],
+              ["banana", "banana"],
+              ["apple", "apple"]
+            ].each do |table_value, expected_value|
+              it "returns the value (e.g. '#{table_value}')" do
+                table = make_table %(
+                  | id |
+                  | #{table_value}  |
+                )
 
-              expect(arguments.resolve(table)).to eq([expected_value])
+                expect(arguments.resolve(table)).to eq([expected_value])
+              end
             end
           end
         end
