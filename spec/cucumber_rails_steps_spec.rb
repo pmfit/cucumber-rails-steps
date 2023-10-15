@@ -27,7 +27,7 @@ RSpec.describe CucumberRailsSteps do
   end
 
 
-    describe "#resolve" do
+    describe "#path_arguments_from" do
       context "the table is nil" do
         it "returns an empty array" do
           expect(world.path_arguments_from(nil)).to eq([])
