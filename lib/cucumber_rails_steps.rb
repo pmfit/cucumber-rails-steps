@@ -18,12 +18,29 @@ module CucumberRailsSteps
   def path_arguments_from(table)
     return [] if !table
 
-    arguments = []
+    objects = []
 
-    table.headers.each_with_index do |_header, index|
-      arguments << table.rows.first[index]
+    table.headers.each_with_index do |header, index|
+      this_header = table.headers[index]
+      class_attribute = this_header.split(" ")
+      if class_attribute.length == 1
+        value = table.rows.first[index]
+        objects << value
+        next
+      end
+      class_name = class_attribute.first
+      attribute = class_attribute.last
+      klass = Object.const_get(class_name)
+      value = table.rows.first[index]
+      entity = if attribute == "id"
+                 value
+               else
+                 klass.find_by({attribute => value})
+               end
+      raise "Couldn't find #{class_name} with #{attribute} #{value}" unless entity
+      objects << entity
     end
 
-    arguments
+    objects
   end
 end

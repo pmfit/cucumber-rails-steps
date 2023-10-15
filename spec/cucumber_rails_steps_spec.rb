@@ -7,7 +7,7 @@ class FakeWorld
 end
 
 class FakeModel
-  def self.find_by()
+  def self.find_by
     FakeModel.new
   end
 end
@@ -155,6 +155,41 @@ RSpec.describe CucumberRailsSteps do
                 )
 
         expect(world.path_arguments_from(table)).to eq(["1", "2", "3"])
+      end
+    end
+
+    context "looking up a model" do
+      it "finding model by non-id" do
+        expect(FakeModel).to receive(:find_by).with({"name" => "Bobby"}).and_return(FakeModel.new)
+
+        table = make_table %(
+                  | FakeModel name |
+                  | Bobby  |
+                )
+
+        world.path_arguments_from(table)
+      end
+
+      it "finding model by id" do
+        expect(FakeModel).to_not receive(:find_by).with({"id" => "23"})
+
+        table = make_table %(
+                  | FakeModel id |
+                  | 23  |
+                )
+
+        world.path_arguments_from(table)
+      end
+
+      it "raises an error if the model can't be found" do
+        expect(FakeModel).to receive(:find_by).with({"name" => "Bobby"}).and_return(nil)
+
+        table = make_table %(
+                  | FakeModel name |
+                  | Bobby  |
+                )
+
+        expect { world.path_arguments_from(table) }.to raise_error(RuntimeError)
       end
     end
   end
