@@ -2,25 +2,26 @@
 
 require "cucumber"
 
+class FakeWorld
+  include CucumberRailsSteps
+end
+
 RSpec.describe CucumberRailsSteps do
+  let(:world) { FakeWorld.new }
+
   it "has a version number" do
     expect(CucumberRailsSteps::VERSION).not_to be nil
   end
 
-  describe CucumberRailsSteps::PathMethod do
-    let(:path_method) { CucumberRailsSteps::PathMethod.new }
-
-    describe "#resolve" do
-      [
-        # ['path name', :expected_method_name],
-        ["users", :users_path],
-        ["user", :user_path],
-        ["new user", :new_user_path],
-        ["edit user", :edit_user_path]
-      ].each do |name, expected|
-        it "returns #{expected} for #{name}" do
-          expect(path_method.resolve(name)).to eq(expected)
-        end
+  describe "#path_method_from" do
+    [
+      ["users", :users_path],
+      ["user", :user_path],
+      ["new user", :new_user_path],
+      ["edit user", :edit_user_path]
+    ].each do |name, expected|
+      it "returns #{expected} for #{name}" do
+        expect(world.path_method_from(name)).to eq(expected)
       end
     end
   end

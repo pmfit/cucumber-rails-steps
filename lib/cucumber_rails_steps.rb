@@ -13,6 +13,10 @@ module CucumberRailsSteps
     end
   end
 
+  def path_method_from(name)
+    PathMethod.new.resolve(name)
+  end
+
   class Arguments
     def resolve(table)
       return [] if !table
