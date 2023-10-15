@@ -1,0 +1,12 @@
+module CucumberRailsSteps
+  class Error < StandardError
+  end
+
+  def visit_path_for: (string path, ?untyped? table) -> untyped
+
+  def path_from: (string name, ?untyped? table) -> untyped
+
+  def path_method_from: (string name) -> untyped
+
+  def path_arguments_from: (untyped table) -> (::Array[untyped] | untyped)
+end
