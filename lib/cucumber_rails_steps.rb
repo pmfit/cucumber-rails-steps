@@ -5,8 +5,8 @@ require_relative "version"
 module CucumberRailsSteps
   class Error < StandardError; end
 
-  class PathResolver
-    def resolve_method(name)
+  class PathMethod
+    def resolve(name)
       name_in_snake_case = name.downcase.gsub(/\s/, '_')
 
       "#{name_in_snake_case}_path".to_sym

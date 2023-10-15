@@ -5,17 +5,19 @@ RSpec.describe CucumberRailsSteps do
     expect(CucumberRailsSteps::VERSION).not_to be nil
   end
 
-  describe CucumberRailsSteps::PathResolver do
-    let(:resolver) { CucumberRailsSteps::PathResolver.new }
-    describe '#resolve_method' do
+  describe CucumberRailsSteps::PathMethod do
+    let(:path_method) { CucumberRailsSteps::PathMethod.new }
+
+    describe '#resolve' do
       [
+        # ['path name', :expected_method_name],
         ['users', :users_path],
         ['user', :user_path],
         ['new user', :new_user_path],
         ['edit user', :edit_user_path],
       ].each  do |name, expected|
         it "returns #{expected} for #{name}" do
-          expect(resolver.resolve_method(name)).to eq(expected)
+          expect(path_method.resolve(name)).to eq(expected)
         end
       end
     end
