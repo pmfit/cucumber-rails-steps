@@ -55,6 +55,15 @@ RSpec.describe CucumberRailsSteps do
               end
             end
           end
+
+          it "works with multiple arguments" do
+            table = make_table %(
+                  | grandparent_id | parent_id | id |
+                  | 1 | 2 | 3 |
+                )
+
+            expect(arguments.resolve(table)).to eq(["1", "2", "3"])
+          end
         end
       end
     end
