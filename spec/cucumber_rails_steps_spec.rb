@@ -6,6 +6,12 @@ class FakeWorld
   include CucumberRailsSteps
 end
 
+class FakeModel
+  def self.find_by()
+    FakeModel.new
+  end
+end
+
 RSpec.describe CucumberRailsSteps do
   let(:world) { FakeWorld.new }
 
@@ -118,37 +124,37 @@ RSpec.describe CucumberRailsSteps do
       it "returns an empty array" do
         expect(world.path_arguments_from(nil)).to eq([])
       end
+    end
 
-      context "when column headers have only 1 word" do
-        context "when there is only 1 column" do
-          [
-            [-1, "-1"],
-            [0, "0"],
-            [1, "1"],
-            [2, "2"],
-            ["", ""],
-            ["banana", "banana"],
-            ["apple", "apple"]
-          ].each do |table_value, expected_value|
-            it "returns the value (e.g. '#{table_value}')" do
-              table = make_table %(
+    context "when column headers have only 1 word" do
+      context "when there is only 1 column" do
+        [
+          [-1, "-1"],
+          [0, "0"],
+          [1, "1"],
+          [2, "2"],
+          ["", ""],
+          ["banana", "banana"],
+          ["apple", "apple"]
+        ].each do |table_value, expected_value|
+          it "returns the value (e.g. '#{table_value}')" do
+            table = make_table %(
                   | id |
                   | #{table_value}  |
                 )
 
-              expect(world.path_arguments_from(table)).to eq([expected_value])
-            end
+            expect(world.path_arguments_from(table)).to eq([expected_value])
           end
         end
+      end
 
-        it "works with multiple arguments" do
-          table = make_table %(
+      it "works with multiple arguments" do
+        table = make_table %(
                   | grandparent_id | parent_id | id |
                   | 1 | 2 | 3 |
                 )
 
-          expect(world.path_arguments_from(table)).to eq(["1", "2", "3"])
-        end
+        expect(world.path_arguments_from(table)).to eq(["1", "2", "3"])
       end
     end
   end
