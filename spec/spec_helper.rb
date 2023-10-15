@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "cucumber/rails/steps"
+require "cucumber_rails_steps"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
