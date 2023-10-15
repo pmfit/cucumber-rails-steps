@@ -33,13 +33,17 @@ RSpec.describe CucumberRailsSteps do
           expect(arguments.resolve(nil)).to eq([])
         end
 
-        it 'returns the column if the column header has 1 word' do
-          table = make_table %{
-            | id |
-            | 1  |
-          }
+        context 'when the column header has 1 word' do
+          [[1, 1]].each do |table_value, expected_value|
+            it 'returns the value e.g.' do
+              table = make_table %{
+                | id |
+                | #{table_value}  |
+              }
 
-          expect(arguments.resolve(table)).to eq([1])
+              expect(arguments.resolve(table)).to eq([expected_value])
+            end
+          end
         end
       end
     end
