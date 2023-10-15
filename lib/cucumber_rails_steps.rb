@@ -5,6 +5,10 @@ require_relative "version"
 module CucumberRailsSteps
   class Error < StandardError; end
 
+  def path_from(name, table = nil)
+    send(path_method_from(name), *path_arguments_from(table))
+  end
+
   def path_method_from(name)
     name_in_snake_case = name.downcase.gsub(/\s/, "_")
 
