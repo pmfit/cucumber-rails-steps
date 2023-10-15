@@ -8,10 +8,12 @@ RSpec.describe CucumberRailsSteps do
   describe CucumberRailsSteps::PathResolver do
     let(:resolver) { CucumberRailsSteps::PathResolver.new }
     describe '#resolve_method' do
-      it 'returns the correct method for a given name' do
-        name = "users"
-
-        expect(resolver.resolve_method(name)).to eq(:users_path)
+      [
+        ['users', :users_path],
+      ].each  do |name, expected|
+        it "returns #{expected} for #{name}" do
+          expect(resolver.resolve_method(name)).to eq(expected)
+        end
       end
     end
   end
