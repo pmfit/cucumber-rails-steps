@@ -3,6 +3,17 @@
 require_relative "version"
 
 module CucumberRailsSteps
+
+  module Steps
+    When("I'm on the {string} page") do |page_name|
+      visit_path_for(page_name)
+    end
+
+    When("I am on the {string} page") do |page_name|
+      visit_path_for(page_name)
+    end
+  end
+
   # @param [string] path
   # @param [Cucumber::MultilineArgument::DataTable | nil] table
   def visit_path_for(path, table = nil)
