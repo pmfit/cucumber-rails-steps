@@ -22,4 +22,16 @@ RSpec.describe CucumberRailsSteps do
       end
     end
   end
+
+  describe CucumberRailsSteps::Arguments do
+    let(:arguments) { CucumberRailsSteps::Arguments.new }
+
+    describe '#resolve' do
+      context 'the table is nil' do
+        it 'returns an empty array' do
+          expect(arguments.resolve(nil)).to eq([])
+        end
+      end
+    end
+  end
 end

@@ -12,4 +12,10 @@ module CucumberRailsSteps
       "#{name_in_snake_case}_path".to_sym
     end
   end
+
+  class Arguments
+    def resolve(table)
+      []
+    end
+  end
 end
